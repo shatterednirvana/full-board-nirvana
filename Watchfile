@@ -1,0 +1,3 @@
+watch('(.*).(ex)s?') { |md|
+  system "mix test"
+}
