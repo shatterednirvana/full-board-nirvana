@@ -78,7 +78,58 @@ defmodule FullBoardNirvana.CLI do
   chosen, and how long it took the user to respond.
   """
   def quiz_user(total_questions) do
+    _results = ask_question(total_questions)
+    # count how many true's there are in results
     {0, total_questions}
+  end
+
+  @doc """
+  Does nothing, since there are no more questions to ask the user.
+  """
+  def ask_question(0) do
+  end
+
+  @doc """
+  Determines if the user is able to correctly identify the color of a single
+  chess square, and then recursively calls itself to ask as many questions as
+  the user would like.
+
+  Returns a list of booleans, where each boolean corresponds to true if the
+  user answered the question correctly, and false otherwise.
+  """
+  def ask_question(total_questions) do
+    {square, color} = generate_square()
+
+    # ask the user if it's black or white
+    answer = get_response(square)
+
+    # see if they're correct
+    this_answer = color == answer
+
+    # ask more questions
+    [this_answer, ask_question(total_questions - 1)]
+  end
+
+  @doc """
+  Generates a random square on the chessboard, and calculates the color it maps
+  to.
+
+  Returns {square, color}, where square corresponds to a chess square in the
+  range a1 -> h8, and color is either black or white, based on the color of the
+  generated square.
+  """
+  def generate_square() do
+    {"a1", "black"}
+  end
+
+  @doc """
+  Asks the user if the given chess square is black or white.
+
+  Returns "black" if the user answered "black", "b", or "1", and "white" if the
+  user answered "white", "w", or "2".
+  """
+  def get_response(square) do
+    "black"
   end
 
   @doc """
