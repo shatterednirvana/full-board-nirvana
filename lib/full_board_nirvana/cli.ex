@@ -8,7 +8,9 @@ defmodule FullBoardNirvana.CLI do
   """
 
   def run(argv) do
-    parse_args(argv)
+    argv
+      |> parse_args
+      |> process
   end
 
   @doc """
@@ -33,6 +35,24 @@ defmodule FullBoardNirvana.CLI do
 
       _ -> @default_rounds
     end
+  end
+
+  @doc """
+  Prints the usage for this program and exits.
+  """
+  def process(:help) do
+    IO.puts """
+    usage: full_board_nirvana [rounds | #{@default_rounds}]
+    """
+    System.halt(0)
+  end
+
+  @doc """
+  Quizzes the user about their chess visualization, prints summary statistics,
+  and exits.
+  """
+  def process(_rounds) do
+
   end
 
 end
