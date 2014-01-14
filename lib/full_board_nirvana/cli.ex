@@ -8,6 +8,8 @@ defmodule FullBoardNirvana.CLI do
   """
 
   def run(argv) do
+    :random.seed(:erlang.now())
+
     argv
       |> parse_args
       |> print_welcome_message
@@ -78,15 +80,16 @@ defmodule FullBoardNirvana.CLI do
   chosen, and how long it took the user to respond.
   """
   def quiz_user(total_questions) do
-    _results = ask_question(total_questions)
-    # count how many true's there are in results
-    {0, total_questions}
+    results = ask_question(total_questions)
+    correct_answers = Enum.count(results, fn(x) -> x == true end)
+    {correct_answers, total_questions}
   end
 
   @doc """
   Does nothing, since there are no more questions to ask the user.
   """
   def ask_question(0) do
+    []
   end
 
   @doc """
@@ -105,9 +108,10 @@ defmodule FullBoardNirvana.CLI do
 
     # see if they're correct
     this_answer = (color == answer)
+    check_response(this_answer)
 
     # ask more questions
-    [this_answer, ask_question(total_questions - 1)]
+    [this_answer | ask_question(total_questions - 1)]
   end
 
   @doc """
@@ -119,7 +123,45 @@ defmodule FullBoardNirvana.CLI do
   generated square.
   """
   def generate_square() do
-    {"a1", "black"}
+    rank = :random.uniform(8)
+    file = :random.uniform(8)
+
+    square = map_rank_and_file_to_square(rank, file)
+    color = map_rank_and_file_to_color(rank, file)
+
+    {square, color}
+  end
+
+  def map_rank_and_file_to_square(rank, file) do
+    a = case rank do
+      1 ->
+        "a"
+      2 ->
+        "b"
+      3 ->
+        "c"
+      4 ->
+        "d"
+      5 ->
+        "e"
+      6 ->
+        "f"
+      7 ->
+        "g"
+      8 ->
+        "h"
+    end
+
+    "#{a}#{file}"
+  end
+
+  def map_rank_and_file_to_color(rank, file) do
+    case rem(rank + file, 2) do
+      0 ->
+        "black"
+      1 ->
+        "white"
+    end
   end
 
   @doc """
@@ -145,6 +187,15 @@ defmodule FullBoardNirvana.CLI do
     end
   end
 
+  def check_response(this_answer) do
+    case this_answer do
+      true ->
+        IO.puts "correct!"
+      false ->
+        IO.puts "incorrect!"
+    end
+  end
+
   @doc """
   Prints information about how many questions the user got right.
 
@@ -154,7 +205,7 @@ defmodule FullBoardNirvana.CLI do
   to get a correct answer).
   """
   def generate_report({correct_answers, total_questions}) do
-    percentage = correct_answers / total_questions
+    percentage = correct_answers / total_questions * 100
     IO.puts """
     You successfully answered #{correct_answers} out of #{total_questions}
     questions (#{percentage}%).
