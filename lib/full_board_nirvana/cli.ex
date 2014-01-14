@@ -7,7 +7,7 @@ defmodule FullBoardNirvana.CLI do
   representing chess learning exercises.
   """
 
-  def run(argv) do
+  def main(argv) do
     :random.seed(:erlang.now())
 
     argv

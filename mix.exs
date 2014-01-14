@@ -5,6 +5,7 @@ defmodule FullBoardNirvana.Mixfile do
     [ app: :full_board_nirvana,
       version: "0.0.1",
       elixir: "~> 0.12.0",
+      escript_main_module: FullBoardNirvana.CLI,
       deps: deps ]
   end
 
