@@ -104,7 +104,7 @@ defmodule FullBoardNirvana.CLI do
     answer = get_response(square)
 
     # see if they're correct
-    this_answer = color == answer
+    this_answer = (color == answer)
 
     # ask more questions
     [this_answer, ask_question(total_questions - 1)]
@@ -129,7 +129,20 @@ defmodule FullBoardNirvana.CLI do
   user answered "white", "w", or "2".
   """
   def get_response(square) do
-    "black"
+    case IO.gets("What color is #{square}? ") do
+      "black\n" ->
+        "black"
+      "b\n" ->
+        "black"
+      "1\n" ->
+        "black"
+      "white\n" ->
+        "white"
+      "w\n" ->
+        "white"
+      "2\n" ->
+        "white"
+    end
   end
 
   @doc """
