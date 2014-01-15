@@ -184,6 +184,9 @@ defmodule FullBoardNirvana.CLI do
         "white"
       "2\n" ->
         "white"
+      _ ->
+        IO.puts "Input was not recognized. Please try again."
+        get_response(square)
     end
   end
 

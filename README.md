@@ -7,6 +7,5 @@ At the moment, it's only got support for a single exercise, inspired by Daniel R
 
 TODO
 ==================
-- Better input validation if the user types an unrecognized answer
 - Need better unit test coverage
 - Other exercises!
